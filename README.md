@@ -1,4 +1,4 @@
-# Serveur / Client lourd
+# Client lourd
 > The purpose of this project is to ...
 
 ## Install (dev)
