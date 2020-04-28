@@ -11,7 +11,7 @@
 ### Install a new package
  * `pipenv install <packagename> --skip-lock`
 ### Launch the application
- * `TODO`
+ * `python run_server.py --log_level [INFO|DEBUG|WARM|ERROR|HELP]`
 
 
 ## Install prod 

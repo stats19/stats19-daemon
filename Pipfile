@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+moment = "==0.9"
 
 [dev-packages]
 vulture = "==1.4"
