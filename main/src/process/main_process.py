@@ -1,16 +1,17 @@
+import logging
 from dataclasses import dataclass
 
-import logging
+from main.src.process.process_interface import Process
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class MainProcess:
+class MainProcess(Process):
+    name: str
 
-    @classmethod
-    def run(cls) -> None:
-        logger.info("Main process")
+    def call_process(self) -> None:
+        logger.info(f'Call process {self.name}')
 
 
 

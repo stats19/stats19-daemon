@@ -4,10 +4,10 @@ import os
 import logs
 
 
-def setup_logging_configuration(log_level):
+def setup_logging_configuration(log_level: str, process_name: str) -> None:
 
     path = os.path.dirname(logs.__file__)
-    filename_path = path + f"/stats19-server.log"
+    filename_path = f'{path}/stats19-server_{process_name}.log'
 
     config_logger = {
         'version': 1,
