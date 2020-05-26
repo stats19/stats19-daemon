@@ -1,7 +1,6 @@
 import json
 import logging
 from urllib.error import HTTPError
-
 import requests as rq
 from dataclasses import field, dataclass
 from typing import List
@@ -32,9 +31,9 @@ class ApiImporter(ImporterInterface):
             content = json.loads(response.content)
             league_list = []
             for x in content:
-                league_list.append(extract_dict_value(x, lambda dict_: dict_['name']))
-
+                league_list.append(LeagueApi(x['name']))
             logger.debug(league_list)
+            return league_list
         except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
             logger.error(e, exc_info=True)
             return []

@@ -23,4 +23,4 @@ class LeagueProcess(Process):
         logger.info(f'End process {self.name}')
 
     def start_safe_process(self):
-        self.importer_api.get_all_leagues()
+         leagues = self.importer_api.get_all_leagues()
