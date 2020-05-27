@@ -131,4 +131,5 @@ dmypy.json
 
 .idea/
 
-.logs/*.log
+logs/*.log
+main/resources/configuration/*.json

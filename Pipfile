@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 moment = "==0.9"
+requests = "*"
 
 [dev-packages]
 vulture = "==1.4"
