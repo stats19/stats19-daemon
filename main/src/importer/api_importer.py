@@ -28,10 +28,15 @@ class ApiImporter(ImporterInterface):
             url = f'{self.url}leagues'
             header = {'Authorization': self.api_token}
             response = rq.get(url, headers=header)
+
+            if response.status_code != 200:
+                return []
+
             content = json.loads(response.content)
             league_list = []
             for x in content:
-                league_list.append(LeagueApi(x['name']))
+                league = LeagueApi(x['leagueId'], x['name'], x['country'], x['matches'], x['teams'])
+                league_list.append(league)
             logger.debug(league_list)
             return league_list
         except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:

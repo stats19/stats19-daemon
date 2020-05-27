@@ -1,8 +1,16 @@
 [
     {
-        "name": "Premier League"
+        "leagueId": 1,
+        "name": "Premiere league",
+        "country": "France",
+        "matches": "http://localhost:8080/leagues/1",
+        "teams": null
     },
     {
-        "name": "Deuxieme League"
+        "leagueId": 2,
+        "name": "Deuxieme league",
+        "country": "France",
+        "matches": "http://localhost:8080/leagues/2",
+        "teams": null
     }
 ]

@@ -11,7 +11,8 @@ class LeaguesProcessTest(TestCase):
 
     @classmethod
     def _side_effect_get_all_leagues(cls):
-        cls.result = [LeagueApi('Premier League'), LeagueApi('Deuxieme League')]
+        cls.result = [LeagueApi(1, 'Premier League', 'France', 'url', []),
+                      LeagueApi(2, 'Deuxieme League', 'France', 'url', [])]
 
     @classmethod
     def setUpClass(cls) -> None:

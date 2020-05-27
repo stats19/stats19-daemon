@@ -22,19 +22,17 @@ class ApiImporterTest(TestCase):
         with resources.open_text(test_resources_folder, 'api_get_leagues_items.json') as get_api_items_response:
             api_get_leagues_response = Mock()
             api_get_leagues_response.content = get_api_items_response.read()
-            league_list = []
-            for x in json.loads(api_get_leagues_response.content):
-                league_list.append(extract_dict_value(x, lambda dict_: dict_['name']))
-            print(league_list)
+            api_get_leagues_response.status_code = 200
             requests.get = MagicMock(return_value=api_get_leagues_response)
             cls.api_importer = ApiImporter(None, None)
             cls.leagues = cls.api_importer.get_all_leagues()
 
     def test_get_leagues_response_1(self) -> None:
-        self.assertEqual(self.leagues[0].name, 'Premier League')
+        print(self.leagues)
+        self.assertEqual(self.leagues[0].name, 'Premiere league')
 
     def test_get_leagues_response_2(self) -> None:
-        self.assertEqual(self.leagues[1].name, 'Deuxieme League')
+        self.assertEqual(self.leagues[1].name, 'Deuxieme league')
 
     def test_get_leagues_response_length(self) -> None:
         self.assertEqual(len(self.leagues), 2)
