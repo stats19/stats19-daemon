@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 from urllib.error import HTTPError
 import requests as rq
 from dataclasses import field, dataclass
@@ -7,16 +8,15 @@ from typing import List
 
 from main.src.importer.interface_importer import ImporterInterface
 from main.src.model.api_model import LeagueApi
-from main.src.utils.utils import extract_dict_value
 
 logger = logging.getLogger(__name__)
 DEFAULT_TIMEOUT = 120
+API_TOKEN = os.environ.get('API_TOKEN')
 
 
 @dataclass
 class ApiImporter(ImporterInterface):
     url: str
-    api_token: str
     timeout: int = field(init=False, default=DEFAULT_TIMEOUT)
 
     def import_data(self):
@@ -26,7 +26,7 @@ class ApiImporter(ImporterInterface):
         try:
             logger.debug(f'Get all Leagues from API')
             url = f'{self.url}leagues'
-            header = {'Authorization': self.api_token}
+            header = {'Authorization': API_TOKEN}
             response = rq.get(url, headers=header)
 
             if response.status_code != 200:
