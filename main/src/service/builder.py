@@ -23,6 +23,5 @@ class ApiSourceBuilder(SourceBuilder):
         logger.debug('Build importer for API')
 
         url = self.source_config['url']
-        token = self.source_config['token']
-        return ApiImporter(url=url, api_token=token)
+        return ApiImporter(url=url)
 

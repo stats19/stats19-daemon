@@ -4,7 +4,7 @@ from typing import Dict, Any, Callable
 
 from main.src.process.league_process import LeagueProcess
 from main.src.process.process_interface import Process
-from main.src.service.configuration_service import Configuration, ConfigurationLoaderService
+from main.src.service.configuration_service import Environment, ConfigurationLoaderService
 from main.src.service.leagues_process_builder import LeaguesProcessBuilder
 from main.src.utils.utils import extract_dict_value
 
@@ -17,7 +17,7 @@ process_name_2_configuration_file = {
 
 @dataclass
 class ProcessLauncher(object):
-    configuration: Configuration
+    environment: Environment
     force_process_execution: bool
     process_name: str
     process: Process = field(init=False)
@@ -33,7 +33,7 @@ class ProcessLauncher(object):
         logger.info('Load data from configuration file')
 
         try:
-            configuration_loader = ConfigurationLoaderService(self.configuration)
+            configuration_loader = ConfigurationLoaderService(self.environment)
             file_name = process_name_2_configuration_file[self.process_name]
 
             configuration_file = configuration_loader.load_process_configuration_file(file_name)

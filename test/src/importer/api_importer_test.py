@@ -10,7 +10,6 @@ import test.resources as test_resources_folder
 
 from main.src.importer.api_importer import ApiImporter
 from main.src.model.api_model import LeagueApi
-from main.src.utils.utils import extract_dict_value
 
 
 class ApiImporterTest(TestCase):
@@ -24,7 +23,7 @@ class ApiImporterTest(TestCase):
             api_get_leagues_response.content = get_api_items_response.read()
             api_get_leagues_response.status_code = 200
             requests.get = MagicMock(return_value=api_get_leagues_response)
-            cls.api_importer = ApiImporter(None, None)
+            cls.api_importer = ApiImporter('')
             cls.leagues = cls.api_importer.get_all_leagues()
 
     def test_get_leagues_response_1(self) -> None:

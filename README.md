@@ -11,9 +11,13 @@
 ### Install a new package
  * `pipenv install <packagename> --skip-lock`
 ### Launch the application
- * `python run_server.py --log_level [INFO|DEBUG|WARM|ERROR|HELP]`
-
-
+ * `python run_server.py 
+ --log_level [INFO|DEBUG|WARM|ERROR|HELP]
+ --environment [DEVELOPMENT|PRODUCTION]
+ --force [FALSE|TRUE]
+ --processname [PROCESSNAME]
+ `
+ * Add `API_TOKEN` as environment variable for the API token
 ## Install prod 
 > TODO 
 
