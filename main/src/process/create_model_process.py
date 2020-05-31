@@ -16,7 +16,7 @@ logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
 
 @dataclass
-class PredictProcess(Process):
+class CreateModelProcess(Process):
     importer_api: ApiImporter
     name: str
 

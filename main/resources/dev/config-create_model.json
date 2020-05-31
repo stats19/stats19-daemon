@@ -7,6 +7,6 @@
   "destination": {
   },
   "process": {
-    "name": "Predict DATA"
+    "name": "Create model for match predictions"
   }
 }

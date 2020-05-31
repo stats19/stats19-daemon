@@ -3,10 +3,10 @@ from dataclasses import dataclass, field
 from typing import Dict, Any, Callable
 
 from main.src.process.league_process import LeagueProcess
-from main.src.process.predict_process import PredictProcess
+from main.src.process.create_model_process import CreateModelProcess
 from main.src.process.process_interface import Process
 from main.src.service.configuration_service import Environment, ConfigurationLoaderService
-from main.src.service.predict_process_builder import PredictProcessBuilder
+from main.src.service.create_model_process_builder import CreateModelProcessBuilder
 from main.src.service.leagues_process_builder import LeaguesProcessBuilder
 from main.src.utils.utils import extract_dict_value
 
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 process_name_2_configuration_file = {
     'leagues': 'config-leagues.json',
-    'predict': 'config-predict.json'
+    'createModel': 'config-create_model.json'
 }
 
 
@@ -29,7 +29,7 @@ class ProcessLauncher(object):
     def __post_init__(self):
         self.process_name_2_builder_function = {
             "leagues": self.build_leagues_process,
-            "predict": self.build_predict_process
+            "createModel": self.build_create_model_process
         }
 
     def build_process(self):
@@ -63,7 +63,7 @@ class ProcessLauncher(object):
                                                         source_config_api=source_api_config)
         return leagues_process_builder.build_process()
 
-    def build_predict_process(self, configuration_file: Dict[Any, Any]) -> PredictProcess:
+    def build_create_model_process(self, configuration_file: Dict[Any, Any]) -> CreateModelProcess:
         process_name = extract_dict_value(configuration_file, lambda dict_: dict_['process']['name'])
 
         logger.info(f'Build process {process_name}')
@@ -72,7 +72,7 @@ class ProcessLauncher(object):
 
         process_config = configuration_file['process']
 
-        predict_process_builder = PredictProcessBuilder(force_process_execution=self.force_process_execution,
+        predict_process_builder = CreateModelProcessBuilder(force_process_execution=self.force_process_execution,
                                                         process_config=process_config,
                                                         source_config_api=source_api_config)
         return predict_process_builder.build_process()
