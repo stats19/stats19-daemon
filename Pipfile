@@ -9,6 +9,7 @@ requests = "*"
 numpy = "*"
 tensorflow = "*"
 matplotlib = "*"
+sklearn = "*"
 
 [dev-packages]
 vulture = "==1.4"

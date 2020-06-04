@@ -8,7 +8,7 @@ from typing import List
 
 from main.src.importer.interface_importer import ImporterInterface
 from main.src.model.api_model import LeagueApi, FullMatch
-from main.resources.dev.data.data import matches_test, matches
+from main.resources.dev.data.data import matches_test, matches, matches_to_predict
 
 
 logger = logging.getLogger(__name__)
@@ -83,6 +83,27 @@ class ApiImporter(ImporterInterface):
             #     league_list.append(league)
             # logger.debug(league_list)
             return matches_test
+        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
+            logger.error(e, exc_info=True)
+            return []
+
+    def get_matches_to_predict(self) -> List[FullMatch]:
+        try:
+            logger.debug(f'Get all Matches for test from API')
+            # url = f'{self.url}leagues'
+            # header = {'Authorization': API_TOKEN}
+            # response = rq.get(url, headers=header)
+            #
+            # if response.status_code != 200:
+            #     return []
+
+            # content = json.loads(response.content)
+            # league_list = []
+            # for x in content:
+            #     league = LeagueApi(x['leagueId'], x['name'], x['country'], x['matches'], x['teams'])
+            #     league_list.append(league)
+            # logger.debug(league_list)
+            return matches_to_predict
         except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
             logger.error(e, exc_info=True)
             return []

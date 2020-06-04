@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 import numpy as np
 from tensorflow.keras.callbacks import TensorBoard
-from tensorflow.python import confusion_matrix
+from sklearn.metrics import confusion_matrix
 
 from main.src.importer.api_importer import ApiImporter
 from main.src.process.process_interface import Process
@@ -42,8 +42,8 @@ class CreateModelProcess(Process):
         print(x_test.shape)
         print(y_test.shape)
 
-        model = DatasetService.create_linear_model()
-        # model = DatasetService.create_mlp_model()
+        # model = DatasetService.create_linear_model()
+        model = DatasetService.create_mlp_model()
 
         true_values = np.argmax(y_train, axis=1)
         preds = np.argmax(model.predict(x_train), axis=1)
@@ -51,7 +51,18 @@ class CreateModelProcess(Process):
         print("Confusion Train Matrix Before Training")
         print(confusion_matrix(true_values, preds))
 
-        logs = model.fit(x_train, y_train, batch_size=64, epochs=DatasetService.epoch, verbose=1, validation_data=(x_test, y_test), callbacks=[TensorBoard()])
+        true_values = np.argmax(y_test, axis=1)
+        preds = np.argmax(model.predict(x_test), axis=1)
+        print("Confusion Test Matrix Before Training")
+        print(confusion_matrix(true_values, preds))
+
+        print(f'Train Acc : {model.evaluate(x_train, y_train)[1]}')
+        print(f'Test Acc : {model.evaluate(x_test, y_test)[1]}')
+
+        print(confusion_matrix(true_values, preds))
+
+        logs = model.fit(x_train, y_train, batch_size=64, epochs=DatasetService.epoch, verbose=1,
+                         validation_data=(x_test, y_test), callbacks=[TensorBoard()])
 
         plt.plot(logs.history['accuracy'])
         plt.plot(logs.history['val_accuracy'])
