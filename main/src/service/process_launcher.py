@@ -6,10 +6,12 @@ from main.src.process.league_process import LeagueProcess
 from main.src.process.create_model_process import CreateModelProcess
 from main.src.process.predict_process import PredictProcess
 from main.src.process.process_interface import Process
+from main.src.process.score_process import ScoreProcess
 from main.src.service.configuration_service import Environment, ConfigurationLoaderService
 from main.src.service.create_model_process_builder import CreateModelProcessBuilder
 from main.src.service.leagues_process_builder import LeaguesProcessBuilder
 from main.src.service.predict_process_builder import PredictProcessBuilder
+from main.src.service.score_process_builder import ScoreProcessBuilder
 from main.src.utils.utils import extract_dict_value
 
 logger = logging.getLogger(__name__)
@@ -17,7 +19,8 @@ logger = logging.getLogger(__name__)
 process_name_2_configuration_file = {
     'leagues': 'config-leagues.json',
     'createModel': 'config-create_model.json',
-    'predict': 'config-predict.json'
+    'predict': 'config-predict.json',
+    'score': 'config-scores.json'
 }
 
 
@@ -33,7 +36,8 @@ class ProcessLauncher(object):
         self.process_name_2_builder_function = {
             "leagues": self.build_leagues_process,
             "createModel": self.build_create_model_process,
-            "predict": self.build_predict_process
+            "predict": self.build_predict_process,
+            'score': self.build_score_process
         }
 
     def build_process(self):
@@ -66,6 +70,20 @@ class ProcessLauncher(object):
                                                         process_config=process_config,
                                                         source_config_api=source_api_config)
         return leagues_process_builder.build_process()
+
+    def build_score_process(self, configuration_file: Dict[Any, Any]) -> ScoreProcess:
+        process_name = extract_dict_value(configuration_file, lambda dict_: dict_['process']['name'])
+
+        logger.info(f'Build process {process_name}')
+
+        source_api_config = configuration_file['sources']['api']
+
+        process_config = configuration_file['process']
+
+        score_process_builder = ScoreProcessBuilder(force_process_execution=self.force_process_execution,
+                                                    process_config=process_config,
+                                                    source_config_api=source_api_config)
+        return score_process_builder.build_process()
 
     def build_create_model_process(self, configuration_file: Dict[Any, Any]) -> CreateModelProcess:
         process_name = extract_dict_value(configuration_file, lambda dict_: dict_['process']['name'])
