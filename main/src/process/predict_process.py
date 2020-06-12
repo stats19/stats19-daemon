@@ -36,6 +36,8 @@ class PredictProcess(Process):
 
         matches = self.importer_api.get_matches_to_predict()
         accuracy = 0
+        if not matches:
+            return
         res = DatasetService.predict_result_with_linear_model(matches)
         for i in range(0, len(res)):
             match = matches[i]

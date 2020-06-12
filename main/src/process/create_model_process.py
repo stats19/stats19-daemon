@@ -1,4 +1,7 @@
 import logging
+import random
+from typing import List, Tuple
+
 import matplotlib.pyplot as plt
 from dataclasses import dataclass
 
@@ -7,6 +10,7 @@ from tensorflow.keras.callbacks import TensorBoard
 from sklearn.metrics import confusion_matrix
 
 from main.src.importer.api_importer import ApiImporter
+from main.src.model.api_model import FullMatch
 from main.src.process.process_interface import Process
 from main.src.service.dataset_service import DatasetService
 
@@ -34,9 +38,9 @@ class CreateModelProcess(Process):
         logger.info('Working')
 
         matches = self.importer_api.get_all_matches()
-        matches_test = self.importer_api.get_all_matches()
+        matches_test, matches_train = self._extract_match_value(matches)
 
-        (x_train, y_train), (x_test, y_test) = DatasetService.load_dataset(matches, matches_test)
+        (x_train, y_train), (x_test, y_test) = DatasetService.load_dataset(matches_train, matches_test)
         print(x_train.shape)
         print(y_train.shape)
         print(x_test.shape)
@@ -73,3 +77,14 @@ class CreateModelProcess(Process):
         plt.show()
 
         model.save('linear_model.keras')
+
+    @staticmethod
+    def _extract_match_value(matches: List[FullMatch]) -> Tuple[List[FullMatch], List[FullMatch]]:
+        pourcentage = int(len(matches) * 0.2)
+        random.shuffle(matches)
+
+        return matches[0:pourcentage], matches[pourcentage::]
+
+
+
+
