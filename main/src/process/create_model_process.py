@@ -34,7 +34,7 @@ class CreateModelProcess(Process):
         logger.info('Working')
 
         matches = self.importer_api.get_all_matches()
-        matches_test = self.importer_api.get_all_matches_test()
+        matches_test = self.importer_api.get_all_matches()
 
         (x_train, y_train), (x_test, y_test) = DatasetService.load_dataset(matches, matches_test)
         print(x_train.shape)

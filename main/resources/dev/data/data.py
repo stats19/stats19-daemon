@@ -99,22 +99,89 @@ matches_test = [FullMatch(0, 1037, 1031, 2, 6), FullMatch(1, 1035, 1036, 6, 5), 
                 FullMatch(75, 1031, 1035, 2, 2), FullMatch(76, 1038, 1034, 9, 3), FullMatch(77, 1028, 1026, 4, 9),
                 FullMatch(78, 1026, 1025, 3, 1), FullMatch(79, 1036, 1027, 1, 1)]
 
-matches_to_predict = [FullMatch(0, 1026, 1034, 0, 4), FullMatch(1, 1035, 1033, 0, 6), FullMatch(2, 1033, 1032, 4, 4),
-                      FullMatch(3, 1027, 1038, 5, 7), FullMatch(4, 1035, 1030, 1, 4), FullMatch(5, 1032, 1036, 1, 6),
-                      FullMatch(6, 1030, 1034, 1, 4), FullMatch(7, 1033, 1031, 1, 8), FullMatch(8, 1025, 1028, 0, 6),
-                      FullMatch(9, 1032, 1035, 6, 3), FullMatch(10, 1036, 1038, 1, 2), FullMatch(11, 1031, 1032, 1, 4),
-                      FullMatch(12, 1032, 1028, 2, 6), FullMatch(13, 1033, 1034, 9, 9), FullMatch(14, 1033, 1031, 4, 1),
-                      FullMatch(15, 1026, 1033, 6, 9), FullMatch(16, 1038, 1032, 1, 1), FullMatch(17, 1030, 1032, 8, 0),
-                      FullMatch(18, 1037, 1026, 9, 3), FullMatch(19, 1032, 1031, 3, 9), FullMatch(20, 1036, 1029, 7, 0),
-                      FullMatch(21, 1036, 1032, 0, 4), FullMatch(22, 1028, 1030, 8, 2), FullMatch(23, 1038, 1026, 3, 2),
-                      FullMatch(24, 1031, 1033, 9, 0), FullMatch(25, 1026, 1025, 9, 5), FullMatch(26, 1035, 1034, 5, 1),
-                      FullMatch(27, 1035, 1029, 8, 5), FullMatch(28, 1030, 1032, 3, 0), FullMatch(29, 1036, 1035, 7, 6),
-                      FullMatch(30, 1025, 1036, 9, 6), FullMatch(31, 1034, 1035, 1, 6), FullMatch(32, 1031, 1033, 3, 5),
-                      FullMatch(33, 1029, 1030, 5, 4), FullMatch(34, 1029, 1038, 8, 0), FullMatch(35, 1035, 1029, 8, 8),
-                      FullMatch(36, 1028, 1034, 5, 7), FullMatch(37, 1038, 1034, 6, 0), FullMatch(38, 1034, 1037, 3, 1),
-                      FullMatch(39, 1028, 1025, 6, 8)]
+matches_to_predict = []
+matches_to_predict.append(FullMatch(0, 20532, 43046, 2, 1))
+matches_to_predict.append(FullMatch(1, 11822, 15634, 4, 1))
+matches_to_predict.append(FullMatch(2, 3458, 44557, 2, 0))
+matches_to_predict.append(FullMatch(3, 11822, 44565, 0, 1))
+matches_to_predict.append(FullMatch(4, 47612, 15617, 3, 3))
+matches_to_predict.append(FullMatch(5, 3464, 8021, 4, 2))
+matches_to_predict.append(FullMatch(6, 20523, 13343, 0, 0))
+matches_to_predict.append(FullMatch(7, 43038, 3461, 0, 1))
+matches_to_predict.append(FullMatch(8, 20531, 20514, 4, 0))
+matches_to_predict.append(FullMatch(9, 12594, 3461, 4, 3))
+matches_to_predict.append(FullMatch(10, 43804, 19917, 3, 0))
+matches_to_predict.append(FullMatch(11, 3457, 43049, 1, 1))
+matches_to_predict.append(FullMatch(12, 21280, 43037, 3, 2))
+matches_to_predict.append(FullMatch(13, 14868, 15617, 2, 2))
+matches_to_predict.append(FullMatch(14, 15621, 9556, 0, 0))
+matches_to_predict.append(FullMatch(15, 3476, 15621, 4, 0))
+matches_to_predict.append(FullMatch(16, 47605, 46848, 1, 0))
+matches_to_predict.append(FullMatch(17, 24288, 20530, 2, 1))
+matches_to_predict.append(FullMatch(18, 16239, 3468, 3, 3))
+matches_to_predict.append(FullMatch(19, 15625, 20518, 4, 0))
+matches_to_predict.append(FullMatch(20, 20520, 16237, 0, 2))
+matches_to_predict.append(FullMatch(21, 7276, 9550, 1, 3))
+matches_to_predict.append(FullMatch(22, 4996, 13343, 0, 0))
+matches_to_predict.append(FullMatch(23, 24288, 10300, 0, 2))
+matches_to_predict.append(FullMatch(24, 15624, 16243, 0, 2))
+matches_to_predict.append(FullMatch(25, 13343, 25791, 0, 3))
+matches_to_predict.append(FullMatch(26, 43048, 20517, 2, 3))
+matches_to_predict.append(FullMatch(27, 43054, 43804, 0, 1))
+matches_to_predict.append(FullMatch(28, 47612, 45330, 2, 0))
+matches_to_predict.append(FullMatch(29, 15622, 22042, 0, 2))
+matches_to_predict.append(FullMatch(30, 14868, 48358, 4, 3))
+matches_to_predict.append(FullMatch(31, 43051, 43053, 4, 1))
+matches_to_predict.append(FullMatch(32, 9551, 48358, 2, 2))
+matches_to_predict.append(FullMatch(33, 8021, 9551, 4, 3))
+matches_to_predict.append(FullMatch(34, 43053, 14876, 4, 2))
+matches_to_predict.append(FullMatch(35, 3467, 7261, 3, 2))
+matches_to_predict.append(FullMatch(36, 43051, 20527, 4, 3))
+matches_to_predict.append(FullMatch(37, 19917, 43045, 4, 0))
+matches_to_predict.append(FullMatch(38, 6509, 3469, 2, 0))
+matches_to_predict.append(FullMatch(39, 43048, 3476, 3, 2))
+matches_to_predict.append(FullMatch(40, 15630, 20514, 4, 2))
+matches_to_predict.append(FullMatch(41, 47605, 16239, 2, 2))
+matches_to_predict.append(FullMatch(42, 3467, 21280, 2, 1))
+matches_to_predict.append(FullMatch(43, 4225, 7276, 0, 0))
+matches_to_predict.append(FullMatch(44, 4225, 46848, 0, 2))
+matches_to_predict.append(FullMatch(45, 4225, 15630, 3, 1))
+matches_to_predict.append(FullMatch(46, 9544, 21280, 1, 1))
+matches_to_predict.append(FullMatch(47, 3472, 43804, 2, 2))
+matches_to_predict.append(FullMatch(48, 4234, 12594, 2, 3))
+matches_to_predict.append(FullMatch(49, 15619, 43803, 2, 1))
+matches_to_predict.append(FullMatch(50, 44557, 16243, 0, 2))
+matches_to_predict.append(FullMatch(51, 9555, 25791, 3, 0))
+matches_to_predict.append(FullMatch(52, 3476, 20514, 3, 0))
+matches_to_predict.append(FullMatch(53, 4218, 15627, 0, 3))
+matches_to_predict.append(FullMatch(54, 20525, 4234, 3, 2))
+matches_to_predict.append(FullMatch(55, 43054, 20519, 3, 0))
+matches_to_predict.append(FullMatch(56, 43036, 7276, 2, 0))
+matches_to_predict.append(FullMatch(57, 15625, 4218, 0, 2))
+matches_to_predict.append(FullMatch(58, 20523, 46087, 4, 2))
+matches_to_predict.append(FullMatch(59, 7261, 20523, 2, 3))
+matches_to_predict.append(FullMatch(60, 5756, 9539, 1, 1))
+matches_to_predict.append(FullMatch(61, 47612, 5744, 4, 0))
+matches_to_predict.append(FullMatch(62, 4996, 43035, 0, 2))
+matches_to_predict.append(FullMatch(63, 20520, 43042, 4, 3))
+matches_to_predict.append(FullMatch(64, 43052, 20529, 4, 0))
+matches_to_predict.append(FullMatch(65, 16850, 6504, 4, 0))
+matches_to_predict.append(FullMatch(66, 8021, 43040, 4, 2))
+matches_to_predict.append(FullMatch(67, 44557, 4234, 4, 0))
+matches_to_predict.append(FullMatch(68, 48358, 11822, 3, 2))
+matches_to_predict.append(FullMatch(69, 5747, 20524, 4, 3))
+matches_to_predict.append(FullMatch(70, 25048, 43047, 0, 3))
+matches_to_predict.append(FullMatch(71, 43038, 43046, 3, 0))
+matches_to_predict.append(FullMatch(72, 43044, 43046, 1, 1))
+matches_to_predict.append(FullMatch(73, 5744, 4218, 3, 3))
+matches_to_predict.append(FullMatch(74, 20529, 6509, 1, 2))
+matches_to_predict.append(FullMatch(75, 25791, 20532, 0, 3))
+matches_to_predict.append(FullMatch(76, 43041, 8784, 0, 0))
+matches_to_predict.append(FullMatch(77, 15632, 14106, 2, 0))
+matches_to_predict.append(FullMatch(78, 12587, 14876, 3, 2))
+matches_to_predict.append(FullMatch(79, 12594, 15626, 4, 3))
 
-teams = [1025,1026,1027,1028,1029,1030,1031,1032,1033,1034,1035,1036,1037,1038]
+teams = [43046, 43047, 46087, 43048, 44557, 43049, 14868, 43050, 44565, 43051, 22042, 43035, 14876, 22044, 43036, 13343, 43039, 20513, 20514, 20515, 20516, 20517, 20518, 20519, 20520, 20521, 20522, 20523, 20524, 20525, 11822, 20527, 20528, 4996, 20526, 20531, 20532, 20530, 20529, 43054, 17465, 10300, 10309, 8779, 8784, 7261, 7276, 5744, 5747, 4218, 5756, 4225, 4234, 25791, 43052, 25804, 24273, 43053, 24288, 48358, 46848, 15617, 15618, 15619, 15620, 15621, 15622, 15623, 15624, 15625, 15626, 15627, 15628, 15629, 15630, 15631, 15632, 15633, 15634, 45330, 22805, 45333, 43800, 14106, 43803, 43804, 21280, 21285, 12587, 21292, 12594, 12595, 9538, 9539, 9540, 9542, 9544, 9545, 9546, 9547, 9548, 9550, 9551, 9552, 9555, 9556, 8021, 6504, 19305, 6509, 16237, 16239, 16243, 3457, 3458, 3459, 3460, 3461, 3462, 3463, 3464, 3465, 3466, 3467, 3468, 3469, 3470, 3471, 3472, 3473, 3474, 3475, 3476, 19916, 19917, 16848, 16850, 43037, 43038, 25048, 43040, 43041, 43042, 44569, 43043, 47605, 43044, 43045, 47612]
 # if __name__ == '__main__':
 #     # for i in range(0, 200):
 #     #     team1, team2 = sample(teams, 2)
@@ -128,11 +195,11 @@ teams = [1025,1026,1027,1028,1029,1030,1031,1032,1033,1034,1035,1036,1037,1038]
 #         teams.append(i.team_away_id)
 #         teams.append(i.team_home_id)
 #
-#     for i in range(0, 80):
-#         team1, team2 = sample(teams, 2)
-#         team1score = int(random() * 10)
-#         team2score = int(random() * 10)
-#         print(f'matches_test.append(FullMatch({i}, {team1}, {team2}, {team1score}, {team2score}))')
+    # for i in range(0, 80):
+    #     team1, team2 = sample(teams, 2)
+    #     team1score = int(random() * 5)
+    #     team2score = int(random() * 4)
+    #     print(f'matches_test.append(FullMatch({i}, {team1}, {team2}, {team1score}, {team2score}))')
 
     # for i in range(0, 40):
     #     team1, team2 = sample(teams, 2)

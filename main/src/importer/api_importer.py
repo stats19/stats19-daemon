@@ -8,18 +8,38 @@ from typing import List
 
 from main.src.importer.interface_importer import ImporterInterface
 from main.src.model.api_model import LeagueApi, FullMatch
-from main.resources.dev.data.data import matches_test, matches, matches_to_predict
+from main.resources.dev.data.data import matches_test, matches_to_predict
 
 
 logger = logging.getLogger(__name__)
 DEFAULT_TIMEOUT = 120
-API_TOKEN = os.environ.get('API_TOKEN')
+USERNAME = os.environ.get('USERNAME')
+PASSWORD = os.environ.get('PASSWORD')
 
 
 @dataclass
 class ApiImporter(ImporterInterface):
     url: str
+    url_login: str
     timeout: int = field(init=False, default=DEFAULT_TIMEOUT)
+
+    def login(self) -> str:
+        try:
+            logger.debug(f'Connect user to API')
+            url = f'{self.url_login}login'
+            body = {
+                    'username': USERNAME,
+                    'password': PASSWORD
+                }
+            response = rq.post(url, json=body, timeout=self.timeout)
+
+            if response.status_code != 200:
+                return ''
+            return response.headers['Authorization']
+
+        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
+            logger.error(e, exc_info=True)
+            return ''
 
     def import_data(self):
         logger.warning("method not implemented")
@@ -28,14 +48,15 @@ class ApiImporter(ImporterInterface):
         try:
             logger.debug(f'Get all Leagues from API')
             url = f'{self.url}leagues'
-            header = {'Authorization': API_TOKEN}
-            response = rq.get(url, headers=header)
+            header = {'Authorization': self.login()}
+            response = rq.get(url, headers=header, timeout=self.timeout)
 
             if response.status_code != 200:
                 return []
 
             content = json.loads(response.content)
             league_list = []
+
             for x in content:
                 league = LeagueApi(x['leagueId'], x['name'], x['country'], x['matches'], x['teams'])
                 league_list.append(league)
@@ -48,20 +69,24 @@ class ApiImporter(ImporterInterface):
     def get_all_matches(self) -> List[FullMatch]:
         try:
             logger.debug(f'Get all Matches from API')
-            # url = f'{self.url}leagues'
-            # header = {'Authorization': API_TOKEN}
-            # response = rq.get(url, headers=header)
-            #
-            # if response.status_code != 200:
-            #     return []
+            url = f'{self.url}matches?played=1'
+            header = {'Authorization': self.login()}
+            response = rq.get(url, headers=header, timeout=self.timeout)
 
-            # content = json.loads(response.content)
-            # league_list = []
-            # for x in content:
-            #     league = LeagueApi(x['leagueId'], x['name'], x['country'], x['matches'], x['teams'])
-            #     league_list.append(league)
-            # logger.debug(league_list)
-            return matches
+            if response.status_code != 200:
+                return []
+            content = json.loads(response.content)
+            match_list = []
+            for x in content:
+                match = FullMatch(
+                    match_id=x['matchId'],
+                    team_home_id=x['home']['teamId'],
+                    team_away_id=x['away']['teamId'],
+                    goal_home=x['home']['goals'],
+                    goal_away=x['away']['goals']
+                )
+                match_list.append(match)
+            return match_list
         except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
             logger.error(e, exc_info=True)
             return []
@@ -70,8 +95,8 @@ class ApiImporter(ImporterInterface):
         try:
             logger.debug(f'Get all Matches for test from API')
             # url = f'{self.url}leagues'
-            # header = {'Authorization': API_TOKEN}
-            # response = rq.get(url, headers=header)
+            # header = {'Authorization': self.login()}
+            # response = rq.get(url, headers=header, timeout=self.timeout)
             #
             # if response.status_code != 200:
             #     return []
@@ -91,8 +116,8 @@ class ApiImporter(ImporterInterface):
         try:
             logger.debug(f'Get all Matches for test from API')
             # url = f'{self.url}leagues'
-            # header = {'Authorization': API_TOKEN}
-            # response = rq.get(url, headers=header)
+            # header = {'Authorization': self.login()}
+            # response = rq.get(url, headers=header, timeout=self.timeout)
             #
             # if response.status_code != 200:
             #     return []

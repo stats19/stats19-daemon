@@ -24,7 +24,7 @@ class WHOWON(Enum):
 @dataclass
 class DatasetService(object):
 
-    epoch: int = field(default=500)
+    epoch: int = field(default=300)
 
     @staticmethod
     def load_dataset(matches: List[FullMatch], matches_test: List[FullMatch]):
