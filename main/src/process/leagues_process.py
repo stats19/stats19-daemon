@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 @dataclass
-class LeagueProcess(Process):
+class LeaguesProcess(Process):
     importer_api: ApiImporter
     name: str
 

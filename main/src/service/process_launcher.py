@@ -2,7 +2,7 @@ import logging
 from dataclasses import dataclass, field
 from typing import Dict, Any, Callable
 
-from main.src.process.league_process import LeagueProcess
+from main.src.process.leagues_process import LeaguesProcess
 from main.src.process.create_model_process import CreateModelProcess
 from main.src.process.predict_process import PredictProcess
 from main.src.process.process_interface import Process
@@ -57,7 +57,7 @@ class ProcessLauncher(object):
             logger.fatal(f'An error occured when parsing configuration file for process {self.process_name}')
             logger.fatal(e)
 
-    def build_leagues_process(self, configuration_file: Dict[Any, Any]) -> LeagueProcess:
+    def build_leagues_process(self, configuration_file: Dict[Any, Any]) -> LeaguesProcess:
         process_name = extract_dict_value(configuration_file, lambda dict_: dict_['process']['name'])
 
         logger.info(f'Build process {process_name}')

@@ -6,11 +6,9 @@ import requests as rq
 from dataclasses import field, dataclass
 from typing import List, Any
 
-from main.resources.dev.data.data import createMatchDTO
 from main.src.importer.interface_importer import ImporterInterface
-from main.src.model.api_model import LeagueApi, FullMatch
+from main.src.model.api_model import LeagueApi, FullMatch, Player
 
-from main.src.model.api_model import LeagueApi, Player
 
 logger = logging.getLogger(__name__)
 DEFAULT_TIMEOUT = 120
