@@ -8,7 +8,6 @@ from typing import List
 
 from main.src.importer.interface_importer import ImporterInterface
 from main.src.model.api_model import LeagueApi, FullMatch
-from main.resources.dev.data.data import matches_test, matches_to_predict
 
 
 logger = logging.getLogger(__name__)
