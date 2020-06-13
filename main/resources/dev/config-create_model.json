@@ -8,6 +8,6 @@
   "destination": {
   },
   "process": {
-    "name": "Get Leagues From API"
+    "name": "Create model for match predictions"
   }
 }
