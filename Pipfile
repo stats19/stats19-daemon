@@ -10,12 +10,14 @@ numpy = "*"
 tensorflow = "*"
 matplotlib = "*"
 sklearn = "*"
+pika = "*"
 
 [dev-packages]
 vulture = "==1.4"
 mock = "==4.0.2"
 pytest = "==5.4.1"
 pytest-cov = "==2.8.1"
+v = {editable = true,version = "*"}
 
 [requires]
 python_version = "3.7.7"
