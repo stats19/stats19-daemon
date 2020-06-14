@@ -1,3 +1,5 @@
+import json
+
 import pika
 import logging
 
@@ -18,6 +20,7 @@ class BrokerService:
     host: str
 
     def send(self, message: dict):
+        message = json.dumps(message)
         credentials = pika.PlainCredentials(self.username, self.password)
         connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, '/', credentials))
         properties = pika.BasicProperties(content_type='application/json',
@@ -31,6 +34,7 @@ class BrokerService:
                               routing_key=self.queue,
                               body=message, properties=properties)
         logger.debug(f'Send {message}')
+        print(f'Send {message}')
 
         connection.close()
 
@@ -48,5 +52,7 @@ class BrokerService:
     @staticmethod
     def _callback(channel, method, properties, body):
         logger.debug(f'Received {body}')
+        print(f'Received {body}')
+        return body
 
 
