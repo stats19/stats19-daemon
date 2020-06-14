@@ -50,9 +50,9 @@ class BrokerDestinationBuilder(SourceBuilder):
     def build_exporter(self) -> BrokerExporter:
         logger.debug('Build exporter for Broker')
 
-        host = os.getenv('SOURCE_BROKER_HOST')
-        port = os.getenv('SOURCE_BROKER_PORT')
-        username = os.getenv('SOURCE_BROKER_USERNAME')
-        password = os.getenv('SOURCE_BROKER_PASSWORD')
-        queue = os.getenv('SOURCE_BROKER_QUEUE')
+        host = os.getenv('DESTINATION_BROKER_HOST')
+        port = int(os.getenv('DESTINATION_BROKER_PORT'))
+        username = os.getenv('DESTINATION_BROKER_USERNAME')
+        password = os.getenv('DESTINATION_BROKER_PASSWORD')
+        queue = os.getenv('DESTINATION_BROKER_QUEUE')
         return BrokerExporter(host=host, port=port, password=password, username=username, queue=queue)

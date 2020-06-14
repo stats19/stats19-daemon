@@ -5,7 +5,6 @@ from enum import Enum
 
 from main.src.logger.logger_configuration import setup_logging_configuration
 from main.src.service.configuration_service import Environment
-from main.src.service.process_launcher import ProcessLauncher
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +69,8 @@ if __name__ == '__main__':
         logger.info("** Start Server Application**")
         env_level = get_env_level(environment)
         force_level = get_force(force, env_level)
+
+        from main.src.service.process_launcher import ProcessLauncher
 
         launcher = ProcessLauncher(process_name=process_name,
                                    force_process_execution=force_level,
