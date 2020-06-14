@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock, MagicMock
 
 from main.src.model.api_model import LeagueApi
-from main.src.process.league_process import LeagueProcess
+from main.src.process.leagues_process import LeagueProcess
 
 
 class LeaguesProcessTest(TestCase):

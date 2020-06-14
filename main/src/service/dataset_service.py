@@ -32,10 +32,10 @@ class DatasetService(object):
         y_train = []
 
         for match in matches:
-            Ximgs.append(np.array([match.team_home_id, match.team_away_id]))
-            if match.goal_away > match.goal_home:
+            Ximgs.append(np.array([match.home.team_id, match.away.team_id]))
+            if match.away.goals > match.home.goals:
                 y_train.append(WHOWON.AWAYWON.value)
-            elif match.goal_away < match.goal_home:
+            elif match.away.goals < match.home.goals:
                 y_train.append(WHOWON.HOMEWON.value)
             else:
                 y_train.append(WHOWON.EQUALITY.value)
@@ -44,10 +44,10 @@ class DatasetService(object):
         y_test = []
 
         for match in matches_test:
-            Ximgs_test.append(np.array([match.team_home_id, match.team_away_id]))
-            if match.goal_away > match.goal_home:
+            Ximgs_test.append(np.array([match.home.team_id, match.away.team_id]))
+            if match.away.goals > match.home.goals:
                 y_test.append(WHOWON.AWAYWON.value)
-            elif match.goal_away < match.goal_home:
+            elif match.away.goals < match.home.goals:
                 y_test.append(WHOWON.HOMEWON.value)
             else:
                 y_test.append(WHOWON.EQUALITY.value)
@@ -85,7 +85,7 @@ class DatasetService(object):
         y = []
 
         for match in matches:
-            y.append(np.array([match.team_home_id, match.team_away_id]))
+            y.append(np.array([match.home.team_id, match.away.team_id]))
         res = model.predict_classes(to_categorical(y))
 
         return res

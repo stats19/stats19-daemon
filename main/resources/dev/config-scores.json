@@ -1,0 +1,13 @@
+{
+  "sources": {
+    "api": {
+      "url": "http://localhost:8080/api/",
+      "url_login": "http://localhost:8080/"
+    }
+  },
+  "destination": {
+  },
+  "process": {
+    "name": "Create score of player"
+  }
+}
