@@ -152,7 +152,7 @@ class ScoreProcess(Process):
             return CARD.RED_CARD.value
 
     @staticmethod
-    def _is_score_good(score: int) -> float:
+    def _is_score_good(score: float) -> float:
         if score < 0:
             return 0
         elif score > 10:
