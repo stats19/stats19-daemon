@@ -2,7 +2,9 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 
+from main.src.exporter.broker_exporter import BrokerExporter
 from main.src.importer.api_importer import ApiImporter
+from main.src.importer.broker_importer import BrokerImporter
 from main.src.process.process_interface import Process
 from main.src.service.dataset_service import DatasetService
 
@@ -19,10 +21,18 @@ class WHOWON(Enum):
 @dataclass
 class PredictProcess(Process):
     importer_api: ApiImporter
+
+    importer_broker: BrokerImporter
+    exporter_broker: BrokerExporter
     name: str
 
     def call_process(self) -> None:
         logger.info(f'Call process {self.name}')
+
+        self.exporter_broker.send({
+            "process": self.name,
+            "status": 'RUNNING',
+        })
 
         if self.force_process_execution:
             self._start_safe_process()
@@ -30,6 +40,11 @@ class PredictProcess(Process):
             self._start_safe_process()
 
         logger.info(f'End process {self.name}')
+
+        self.exporter_broker.send({
+            "process": self.name,
+            "status": 'ENDED',
+        })
 
     def _start_safe_process(self):
         logger.info('Working')

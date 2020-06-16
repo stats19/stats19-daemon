@@ -3,9 +3,15 @@
     "api": {
       "url": "http://localhost:8080/api/",
       "url_login": "http://localhost:8080/"
+    },
+    "broker": {
+
     }
   },
-  "destination": {
+  "destinations": {
+    "broker": {
+
+    }
   },
   "process": {
     "name": "Create score of player"

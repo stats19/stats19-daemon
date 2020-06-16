@@ -18,12 +18,22 @@ class BrokerProcess(Process):
     def call_process(self) -> None:
         logger.info(f'Call process {self.name}')
 
+        self.exporter_broker.send({
+            "process": self.name,
+            "status": 'RUNNING',
+        })
+
         if self.force_process_execution:
             self._start_safe_process()
         else:
             self._start_safe_process()
 
         logger.info(f'End process {self.name}')
+
+        self.exporter_broker.send({
+            "process": self.name,
+            "status": 'ENDED',
+        })
 
     def _start_safe_process(self):
         logger.info('Working')

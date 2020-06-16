@@ -2,7 +2,9 @@ import logging
 from dataclasses import dataclass
 from typing import List
 
+from main.src.exporter.broker_exporter import BrokerExporter
 from main.src.importer.api_importer import ApiImporter
+from main.src.importer.broker_importer import BrokerImporter
 from main.src.model.api_model import Player, CARD
 from main.src.process.process_interface import Process
 
@@ -19,19 +21,32 @@ SCORE = 5
 @dataclass
 class ScoreProcess(Process):
     importer_api: ApiImporter
+
+    importer_broker: BrokerImporter
+    exporter_broker: BrokerExporter
     name: str
 
     def call_process(self) -> None:
         logger.info(f'Call process {self.name}')
 
+        self.exporter_broker.send({
+            "process": self.name,
+            "status": 'RUNNING',
+        })
+
         if self.force_process_execution:
-            self.start_safe_process()
+            self._start_safe_process()
         else:
-            self.start_safe_process()
+            self._start_safe_process()
 
         logger.info(f'End process {self.name}')
 
-    def start_safe_process(self):
+        self.exporter_broker.send({
+            "process": self.name,
+            "status": 'ENDED',
+        })
+
+    def _start_safe_process(self):
         matches = self.importer_api.get_all_matches()
         for match in matches:
 

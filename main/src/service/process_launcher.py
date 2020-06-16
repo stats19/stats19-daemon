@@ -67,12 +67,17 @@ class ProcessLauncher(object):
         logger.info(f'Build process {process_name}')
 
         source_api_config = configuration_file['sources']['api']
+        source_config_broker = configuration_file['sources']['broker']
+        destination_config_broker = configuration_file['destinations']['broker']
 
         process_config = configuration_file['process']
 
         leagues_process_builder = LeaguesProcessBuilder(force_process_execution=self.force_process_execution,
                                                         process_config=process_config,
-                                                        source_config_api=source_api_config)
+                                                        source_config_api=source_api_config,
+                                                        source_config_broker=source_config_broker,
+                                                        destination_config_broker=destination_config_broker
+                                                        )
         return leagues_process_builder.build_process()
 
     def build_score_process(self, configuration_file: Dict[Any, Any]) -> ScoreProcess:
@@ -81,12 +86,17 @@ class ProcessLauncher(object):
         logger.info(f'Build process {process_name}')
 
         source_api_config = configuration_file['sources']['api']
+        source_config_broker = configuration_file['sources']['broker']
+        destination_config_broker = configuration_file['destinations']['broker']
 
         process_config = configuration_file['process']
 
         score_process_builder = ScoreProcessBuilder(force_process_execution=self.force_process_execution,
                                                     process_config=process_config,
-                                                    source_config_api=source_api_config)
+                                                    source_config_api=source_api_config,
+                                                    source_config_broker=source_config_broker,
+                                                    destination_config_broker=destination_config_broker
+                                                    )
         return score_process_builder.build_process()
 
     def build_create_model_process(self, configuration_file: Dict[Any, Any]) -> CreateModelProcess:
@@ -95,12 +105,17 @@ class ProcessLauncher(object):
         logger.info(f'Build process {process_name}')
 
         source_api_config = configuration_file['sources']['api']
+        source_config_broker = configuration_file['sources']['broker']
+        destination_config_broker = configuration_file['destinations']['broker']
 
         process_config = configuration_file['process']
 
         predict_process_builder = CreateModelProcessBuilder(force_process_execution=self.force_process_execution,
                                                             process_config=process_config,
-                                                            source_config_api=source_api_config)
+                                                            source_config_api=source_api_config,
+                                                            source_config_broker=source_config_broker,
+                                                            destination_config_broker=destination_config_broker
+                                                            )
         return predict_process_builder.build_process()
 
     def build_predict_process(self, configuration_file: Dict[Any, Any]) -> PredictProcess:
@@ -109,12 +124,17 @@ class ProcessLauncher(object):
         logger.info(f'Build process {process_name}')
 
         source_api_config = configuration_file['sources']['api']
+        source_config_broker = configuration_file['sources']['broker']
+        destination_config_broker = configuration_file['destinations']['broker']
 
         process_config = configuration_file['process']
 
         predict_process_builder = PredictProcessBuilder(force_process_execution=self.force_process_execution,
                                                         process_config=process_config,
-                                                        source_config_api=source_api_config)
+                                                        source_config_api=source_api_config,
+                                                        source_config_broker=source_config_broker,
+                                                        destination_config_broker=destination_config_broker
+                                                        )
         return predict_process_builder.build_process()
 
     def build_broker_process(self, configuration_file: Dict[Any, Any]) -> BrokerProcess:

@@ -36,11 +36,10 @@ class BrokerImporter(ImporterInterface):
 
     @staticmethod
     def _callback(channel, method, properties, body):
-        logger.debug(f'Received {body}')
         content = json.loads(body)
         logger.debug(f'Received {content}')
 
-        logger.debug(f'Launche process {content["process"]}')
+        logger.debug(f'Launch process {content["process"]}')
 
         process = content['process']
         environment = content['environment']
@@ -55,7 +54,6 @@ class BrokerImporter(ImporterInterface):
                                    force_process_execution=force_level,
                                    environment=env_level)
         launcher.build_process()
-
         if launcher.process is not None and launcher.process.use_asyncio:
             coroutine = launcher.async_start()
             asyncio.run(coroutine)

@@ -16,18 +16,18 @@ class BrokerProcessBuilder:
 
     def build_process(self) -> BrokerProcess:
 
-        importer_broker = self._build_impoter_api()
-        exporter_broker = self._build_exporter_api()
+        importer_broker = self._build_impoter_broker()
+        exporter_broker = self._build_exporter_broker()
         return BrokerProcess(name=self.process_config['name'],
                              use_asyncio=False,
                              force_process_execution=self.force_process_execution,
                              importer_broker=importer_broker,
                              exporter_broker=exporter_broker)
 
-    def _build_impoter_api(self) -> BrokerImporter:
+    def _build_impoter_broker(self) -> BrokerImporter:
         builder = BrokerSourceBuilder(self.source_config_broker)
         return builder.build_importer()
 
-    def _build_exporter_api(self) -> BrokerExporter:
+    def _build_exporter_broker(self) -> BrokerExporter:
         builder = BrokerDestinationBuilder(self.destination_config_broker)
         return builder.build_exporter()
