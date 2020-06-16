@@ -5,12 +5,13 @@ import logging
 
 from dataclasses import dataclass
 
+from main.src.exporter.interface_exporter import ExporterInterface
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class BrokerService:
+class BrokerExporter(ExporterInterface):
     username: str
     password: str
     queue: str
@@ -34,21 +35,5 @@ class BrokerService:
         logger.debug(f'Send {message}')
 
         connection.close()
-
-    def receive(self):
-        credentials = pika.PlainCredentials(self.username, self.password)
-        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, '/', credentials))
-
-        channel = connection.channel()
-
-        channel.queue_declare(queue=self.queue)
-
-        channel.basic_consume(queue=self.queue, auto_ack=True, on_message_callback=self._callback)
-        channel.start_consuming()
-
-    @staticmethod
-    def _callback(channel, method, properties, body):
-        logger.debug(f'Received {body}')
-        return body
 
 
