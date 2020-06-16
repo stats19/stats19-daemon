@@ -103,23 +103,58 @@ class ApiImporter(ImporterInterface):
             logger.error(e, exc_info=True)
             return []
 
-    def save_score_to_player(self, player: Player, score: float) -> int:
+    def save_score_to_player(self, player: Player, score: float, match_id: int) -> int:
         # update player where id = player.id
-        logger.debug(f'Update player {str(player.name)} score : {score}')
+        logger.debug(f'Update player {str(player.name)} score : {score} for match {match_id}')
+        try:
+            header = {'Authorization': self.token}
+            url = f'{self.url_login}process/matches/{match_id}/players/{player.id}'
+            body = {"score": "%.1f" % score}
+            logger.debug(f"HELLLO - {body}")
+            response = rq.put(url, headers=header, timeout=self.timeout, json=body)
+
+            if response.status_code != 200:
+                return 0
+        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
+            logger.error(e, exc_info=True)
+            return 0
         return 1
 
     def get_player_in_match(self, url: str) -> Tuple[List[Player], List[Player]]:
-        header = {'Authorization': self.token}
-        response = rq.get(url, headers=header, timeout=self.timeout)
+        try:
+            header = {'Authorization': self.token}
+            response = rq.get(url, headers=header, timeout=self.timeout)
 
-        if response.status_code != 200:
+            if response.status_code != 200:
+                return [], []
+            home = []
+            away = []
+            content = json.loads(response.content)
+            for home_player in content['home']:
+                home.append(build_player(home_player))
+            for away_player in content['away']:
+                away.append(build_player(away_player))
+            return home, away
+
+        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
+            logger.error(e, exc_info=True)
             return [], []
-        home = []
-        away = []
-        content = json.loads(response.content)
-        for home_player in content['home']:
-            home.append(build_player(home_player))
-        for away_player in content['away']:
-            away.append(build_player(away_player))
-        return home, away
 
+    def get_all_matches_to_note(self) -> List[FullMatch]:
+        try:
+            logger.debug(f'Get all Matches from API')
+            url = f'{self.url}matches?score=1'
+            header = {'Authorization': self.token}
+            response = rq.get(url, headers=header, timeout=self.timeout)
+
+            if response.status_code != 200:
+                return []
+            content = json.loads(response.content)
+            match_list = []
+            for x in content:
+                match = build_fullmatch(x)
+                match_list.append(match)
+            return match_list
+        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
+            logger.error(e, exc_info=True)
+            return []

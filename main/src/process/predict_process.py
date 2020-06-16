@@ -56,19 +56,19 @@ class PredictProcess(Process):
         res = DatasetService.predict_result_with_linear_model(matches)
         for i in range(0, len(res)):
             match = matches[i]
-            if match.goal_away > match.goal_home:
+            if match.away.goals > match.home.goals:
                 if res[i] == 1:
                     accuracy += 1
-                print(f' Away devrais gagner, score : {match.goal_home}-{match.goal_away} mais l\'algo predit : {WHOWON(res[i]).name}')
-            elif match.goal_away < match.goal_home:
+                logger.info(f' Away devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+            elif match.away.goals < match.home.goals:
                 if res[i] == 0:
                     accuracy += 1
-                print(f' Home devrais gagner, score : {match.goal_home}-{match.goal_away} mais l\'algo predit : {WHOWON(res[i]).name}')
+                logger.info(f' Home devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
             else:
                 if res[i] == 2:
                     accuracy += 1
-                print(f' Egalité, score : {match.goal_home}-{match.goal_away} mais l\'algo predit : {WHOWON(res[i]).name}')
-        print(f'Accuracy = {accuracy/len(res)}')
+                logger.info(f' Egalité, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+        logger.info(f'Accuracy = {accuracy/len(res)}')
 
 
 

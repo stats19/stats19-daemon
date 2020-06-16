@@ -47,7 +47,7 @@ class ScoreProcess(Process):
         })
 
     def _start_safe_process(self):
-        matches = self.importer_api.get_all_matches()
+        matches = self.importer_api.get_all_matches_to_note()
         for match in matches:
 
             logger.debug(match.match_id)
@@ -57,13 +57,14 @@ class ScoreProcess(Process):
             away_shot_ratio = self._get_shot_ratio_of_a_team(match.away.players)
 
             logger.debug(f'Home : {str(match.home.name)}')
-            self._set_score_of_a_team(match.home.players, home_shot_ratio, away_shot_ratio)
+            self._set_score_of_a_team(match.home.players, home_shot_ratio, away_shot_ratio, match.match_id)
             logger.debug(f'Away : {str(match.away.name)}')
-            self._set_score_of_a_team(match.away.players, home_shot_ratio, away_shot_ratio)
+            self._set_score_of_a_team(match.away.players, home_shot_ratio, away_shot_ratio, match.match_id)
 
     def _set_score_of_a_team(self, playerlist: List[Player],
                              home_shot_ratio: float,
-                             away_shot_ratio: float):
+                             away_shot_ratio: float,
+                             match_id: int):
         for player in playerlist:
             if player:
                 logger.debug(f'{str(player.name)}')
@@ -78,7 +79,7 @@ class ScoreProcess(Process):
                     score = self._create_score_of_forward(player, home_shot_ratio)
                 else:
                     score = self._create_score_of_other(player, home_shot_ratio)
-                self.importer_api.save_score_to_player(player, score)
+                self.importer_api.save_score_to_player(player, score, match_id)
 
     @staticmethod
     def _get_post_of_player(player: Player) -> str:
