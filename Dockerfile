@@ -4,6 +4,7 @@ WORKDIR /opt/project
 
 COPY . .
 RUN pip install pipenv
-RUN pipenv install --skip-lock --system
+RUN apt install gcc
+RUN pipenv install --skip-lock
 
 CMD python -u /opt/project/main/src/run_server.py --log_level DEBUG --environment PRODUCTION --processname broker --force FALSE
