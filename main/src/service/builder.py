@@ -3,7 +3,9 @@ import os
 from dataclasses import dataclass
 from typing import Any, Dict
 
+from main.src.exporter.api_exporter import ApiExporter
 from main.src.exporter.broker_exporter import BrokerExporter
+from main.src.exporter.interface_exporter import ExporterInterface
 from main.src.importer.api_importer import ApiImporter
 from main.src.importer.broker_importer import BrokerImporter
 from main.src.importer.interface_importer import ImporterInterface
@@ -20,6 +22,14 @@ class SourceBuilder:
 
 
 @dataclass
+class DestinationBuilder:
+    destination_config: Dict[Any, Any]
+
+    def build_exporter(self) -> ExporterInterface:
+        pass
+
+
+@dataclass
 class ApiSourceBuilder(SourceBuilder):
 
     def build_importer(self) -> ApiImporter:
@@ -28,6 +38,17 @@ class ApiSourceBuilder(SourceBuilder):
         url = self.source_config['url']
         url_login = self.source_config['url_login']
         return ApiImporter(url=url, url_login=url_login)
+
+
+@dataclass
+class ApiDestinationBuilder(DestinationBuilder):
+
+    def build_exporter(self) -> ApiExporter:
+        logger.debug('Build exporter for API')
+
+        url = self.destination_config['url']
+        url_login = self.destination_config['url_login']
+        return ApiExporter(url=url, url_login=url_login)
 
 
 @dataclass

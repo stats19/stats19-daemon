@@ -12,6 +12,3 @@ class MainProcess(Process):
 
     def call_process(self) -> None:
         logger.info(f'Call process {self.name}')
-
-
-

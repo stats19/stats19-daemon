@@ -1,14 +1,14 @@
 import json
 import logging
 import os
-from urllib.error import HTTPError
-import requests as rq
 from dataclasses import field, dataclass
-from typing import List, Any, Union, Tuple
+from typing import List, Tuple
+from urllib.error import HTTPError
+
+import requests as rq
 
 from main.src.importer.interface_importer import ImporterInterface
-from main.src.model.api_model import LeagueApi, Player, FullMatch, TeamMatch, Corner, Cross, Foul, Shot, Assist, \
-    build_player, build_fullmatch
+from main.src.model.api_model import LeagueApi, Player, FullMatch, build_player, build_fullmatch
 
 logger = logging.getLogger(__name__)
 DEFAULT_TIMEOUT = 120
@@ -28,9 +28,9 @@ class ApiImporter(ImporterInterface):
             logger.debug(f'Connect user to API')
             url = f'{self.url_login}login'
             body = {
-                    'username': USERNAME,
-                    'password': PASSWORD
-                }
+                'username': USERNAME,
+                'password': PASSWORD
+            }
             response = rq.post(url, json=body, timeout=self.timeout)
 
             if response.status_code != 200:
@@ -103,21 +103,6 @@ class ApiImporter(ImporterInterface):
             logger.error(e, exc_info=True)
             return []
 
-    def save_score_to_player(self, player: Player, score: float, match_id: int) -> int:
-        try:
-            header = {'Authorization': self.token}
-            url = f'{self.url_login}process/matches/{match_id}/players/{player.id}'
-            body = {"score": "%.1f" % score}
-            response = rq.put(url, headers=header, timeout=self.timeout, json=body)
-
-            if response.status_code != 200:
-                logger.error(f'Not Update player {str(player.name)} score : {score} for match {match_id}')
-                return 0
-        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
-            logger.error(e, exc_info=True)
-            return 0
-        return 1
-
     def get_player_in_match(self, url: str) -> Tuple[List[Player], List[Player]]:
         try:
             header = {'Authorization': self.token}
@@ -156,17 +141,3 @@ class ApiImporter(ImporterInterface):
         except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
             logger.error(e, exc_info=True)
             return []
-
-    def save_forecast(self, winner: int, match_id: int) -> int:
-        try:
-            header = {'Authorization': self.token}
-            url = f'{self.url_login}process/matches/{match_id}'
-            body = {"forecast":  winner}
-            response = rq.put(url, headers=header, timeout=self.timeout, json=body)
-
-            if response.status_code != 200:
-                return 0
-        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
-            logger.error(e, exc_info=True)
-            return 0
-        return 1

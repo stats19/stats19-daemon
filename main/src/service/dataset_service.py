@@ -1,13 +1,13 @@
+from dataclasses import dataclass, field
+from enum import Enum
 from typing import List
 
 import numpy as np
-from dataclasses import dataclass, field
-from enum import Enum
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Flatten
-from tensorflow.keras.optimizers import SGD
-from tensorflow.keras.losses import mean_squared_error
 from tensorflow.keras.activations import sigmoid, tanh
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.losses import mean_squared_error
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.optimizers import SGD
 from tensorflow.python.keras.models import load_model
 from tensorflow.python.keras.utils.np_utils import to_categorical
 
@@ -23,7 +23,6 @@ class WHOWON(Enum):
 
 @dataclass
 class DatasetService(object):
-
     epoch: int = field(default=101)
 
     @staticmethod

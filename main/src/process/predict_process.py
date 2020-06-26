@@ -2,9 +2,8 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 
-from main.src.exporter.broker_exporter import BrokerExporter
+from main.src.exporter.api_exporter import ApiExporter
 from main.src.importer.api_importer import ApiImporter
-from main.src.importer.broker_importer import BrokerImporter
 from main.src.process.process_interface import Process
 from main.src.service.dataset_service import DatasetService
 
@@ -21,18 +20,14 @@ class WHOWON(Enum):
 @dataclass
 class PredictProcess(Process):
     importer_api: ApiImporter
+    exporter_api: ApiExporter
 
-    importer_broker: BrokerImporter
-    exporter_broker: BrokerExporter
     name: str
 
     def call_process(self) -> None:
         logger.info(f'Call process {self.name}')
 
-        self.exporter_broker.send({
-            "process": self.name,
-            "status": 'RUNNING',
-        })
+        self.exporter_api.save_process_status_start(self.name)
 
         if self.force_process_execution:
             self._start_safe_process()
@@ -41,10 +36,7 @@ class PredictProcess(Process):
 
         logger.info(f'End process {self.name}')
 
-        self.exporter_broker.send({
-            "process": self.name,
-            "status": 'ENDED',
-        })
+        self.exporter_api.save_process_status_ended(self.name)
 
     def _start_safe_process(self):
         matches = self.importer_api.get_matches_to_predict()
@@ -57,20 +49,18 @@ class PredictProcess(Process):
             if match.away.goals > match.home.goals:
                 if res[i] == 2:
                     accuracy += 1
-                logger.debug(f' Away devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+                logger.debug(
+                    f' Away devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
             elif match.away.goals < match.home.goals:
                 if res[i] == 0:
                     accuracy += 1
-                logger.debug(f' Home devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+                logger.debug(
+                    f' Home devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
             else:
                 if res[i] == 1:
                     accuracy += 1
-                logger.debug(f' Egalité, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+                logger.debug(
+                    f' Egalité, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
 
-            self.importer_api.save_forecast(WHOWON(res[i]).value, match.match_id)
-        logger.info(f'Accuracy = {accuracy/len(res)}')
-
-
-
-
-
+            self.exporter_api.save_forecast(WHOWON(res[i]).value, match.match_id)
+        logger.info(f'Accuracy = {accuracy / len(res)}')

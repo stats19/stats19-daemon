@@ -2,9 +2,8 @@ import logging
 from dataclasses import dataclass
 from typing import List
 
-from main.src.exporter.broker_exporter import BrokerExporter
+from main.src.exporter.api_exporter import ApiExporter
 from main.src.importer.api_importer import ApiImporter
-from main.src.importer.broker_importer import BrokerImporter
 from main.src.model.api_model import Player, CARD
 from main.src.process.process_interface import Process
 
@@ -21,18 +20,14 @@ SCORE = 5
 @dataclass
 class ScoreProcess(Process):
     importer_api: ApiImporter
+    exporter_api: ApiExporter
 
-    importer_broker: BrokerImporter
-    exporter_broker: BrokerExporter
     name: str
 
     def call_process(self) -> None:
         logger.info(f'Call process {self.name}')
 
-        self.exporter_broker.send({
-            "process": self.name,
-            "status": 'RUNNING',
-        })
+        self.exporter_api.save_process_status_start(self.name)
 
         if self.force_process_execution:
             self._start_safe_process()
@@ -41,10 +36,7 @@ class ScoreProcess(Process):
 
         logger.info(f'End process {self.name}')
 
-        self.exporter_broker.send({
-            "process": self.name,
-            "status": 'ENDED',
-        })
+        self.exporter_api.save_process_status_ended(self.name)
 
     def _start_safe_process(self):
         matches = self.importer_api.get_all_matches_to_note()
@@ -78,7 +70,11 @@ class ScoreProcess(Process):
                     score = self._create_score_of_forward(player, home_shot_ratio)
                 else:
                     score = self._create_score_of_other(player, home_shot_ratio)
-                self.importer_api.save_score_to_player(player, score, match_id)
+
+                average_score = player.average_score if player.average_score is not None else score
+                self.exporter_api.save_average_score_to_player(player, (score + average_score) / 2)
+
+                self.exporter_api.save_score_to_player(player, score, match_id)
 
     @staticmethod
     def _get_post_of_player(player: Player) -> str:

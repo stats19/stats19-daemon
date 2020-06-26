@@ -3,7 +3,7 @@ from unittest import TestCase
 from unittest.mock import Mock, MagicMock
 
 from main.src.model.api_model import LeagueApi
-from main.src.process.leagues_process import LeagueProcess
+from main.src.process.leagues_process import LeaguesProcess
 
 
 class LeaguesProcessTest(TestCase):
@@ -19,7 +19,7 @@ class LeaguesProcessTest(TestCase):
         api_importer = Mock()
         api_importer.get_all_leagues = MagicMock(side_effect=cls._side_effect_get_all_leagues)
 
-        process = LeagueProcess(use_asyncio=False,
+        process = LeaguesProcess(use_asyncio=False,
                                 force_process_execution=False,
                                 name='Process League',
                                 importer_api=api_importer)
