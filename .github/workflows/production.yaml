@@ -19,3 +19,11 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: basti3n/stats19
           tag_with_ref: true
+          build_args: |
+            USERNAME=${{ secrets.API_PROCESS_USERNAME }}
+            PASSWORD=${{ secrets.API_PROCESS_PASSWORD }}
+            SOURCE_BROKER_USERNAME=${{ secrets.BROKER_USERNAME }}
+            SOURCE_BROKER_PASSWORD=${{ secrets.BROKER_PASSWORD }}
+            SOURCE_BROKER_QUEUE=${{ secrets.BROKER_QUEUE }}
+            SOURCE_BROKER_PORT=${{ secrets.BROKER_PORT }}
+            SOURCE_BROKER_HOST=${{ secrets.BROKER_HOST }}
