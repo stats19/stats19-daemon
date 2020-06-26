@@ -14,8 +14,8 @@ logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
 class WHOWON(Enum):
     HOMEWON = 0
-    AWAYWON = 1
-    EQUALITY = 2
+    EQUALITY = 1
+    AWAYWON = 2
 
 
 @dataclass
@@ -47,8 +47,6 @@ class PredictProcess(Process):
         })
 
     def _start_safe_process(self):
-        logger.info('Working')
-
         matches = self.importer_api.get_matches_to_predict()
         accuracy = 0
         if not matches:
@@ -57,17 +55,19 @@ class PredictProcess(Process):
         for i in range(0, len(res)):
             match = matches[i]
             if match.away.goals > match.home.goals:
-                if res[i] == 1:
+                if res[i] == 2:
                     accuracy += 1
-                logger.info(f' Away devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+                logger.debug(f' Away devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
             elif match.away.goals < match.home.goals:
                 if res[i] == 0:
                     accuracy += 1
-                logger.info(f' Home devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+                logger.debug(f' Home devrais gagner, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
             else:
-                if res[i] == 2:
+                if res[i] == 1:
                     accuracy += 1
-                logger.info(f' Egalité, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+                logger.debug(f' Egalité, score : {match.home.goals}-{match.away.goals} mais l\'algo predit : {WHOWON(res[i]).name}')
+
+            self.importer_api.save_forecast(WHOWON(res[i]).value, match.match_id)
         logger.info(f'Accuracy = {accuracy/len(res)}')
 
 

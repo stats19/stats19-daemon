@@ -104,16 +104,14 @@ class ApiImporter(ImporterInterface):
             return []
 
     def save_score_to_player(self, player: Player, score: float, match_id: int) -> int:
-        # update player where id = player.id
-        logger.debug(f'Update player {str(player.name)} score : {score} for match {match_id}')
         try:
             header = {'Authorization': self.token}
             url = f'{self.url_login}process/matches/{match_id}/players/{player.id}'
             body = {"score": "%.1f" % score}
-            logger.debug(f"HELLLO - {body}")
             response = rq.put(url, headers=header, timeout=self.timeout, json=body)
 
             if response.status_code != 200:
+                logger.error(f'Not Update player {str(player.name)} score : {score} for match {match_id}')
                 return 0
         except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
             logger.error(e, exc_info=True)
@@ -158,3 +156,17 @@ class ApiImporter(ImporterInterface):
         except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
             logger.error(e, exc_info=True)
             return []
+
+    def save_forecast(self, winner: int, match_id: int) -> int:
+        try:
+            header = {'Authorization': self.token}
+            url = f'{self.url_login}process/matches/{match_id}'
+            body = {"forecast":  winner}
+            response = rq.put(url, headers=header, timeout=self.timeout, json=body)
+
+            if response.status_code != 200:
+                return 0
+        except (rq.exceptions.RequestException, HTTPError, ConnectionError, KeyError) as e:
+            logger.error(e, exc_info=True)
+            return 0
+        return 1

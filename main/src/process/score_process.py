@@ -49,7 +49,6 @@ class ScoreProcess(Process):
     def _start_safe_process(self):
         matches = self.importer_api.get_all_matches_to_note()
         for match in matches:
-
             logger.debug(match.match_id)
             match.home.players, match.away.players = self.importer_api.get_player_in_match(match.home.players_url)
 
@@ -66,7 +65,7 @@ class ScoreProcess(Process):
                              away_shot_ratio: float,
                              match_id: int):
         for player in playerlist:
-            if player:
+            if player and player.id is not None:
                 logger.debug(f'{str(player.name)}')
                 post = self._get_post_of_player(player)
                 if post == GOAL_KEEPER:

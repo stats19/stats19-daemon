@@ -17,14 +17,14 @@ from main.src.model.api_model import FullMatch
 
 class WHOWON(Enum):
     HOMEWON = [1, 0, 0]
-    AWAYWON = [0, 1, 0]
-    EQUALITY = [0, 0, 1]
+    EQUALITY = [0, 1, 0]
+    AWAYWON = [0, 0, 1]
 
 
 @dataclass
 class DatasetService(object):
 
-    epoch: int = field(default=300)
+    epoch: int = field(default=101)
 
     @staticmethod
     def load_dataset(matches: List[FullMatch], matches_test: List[FullMatch]):
@@ -63,7 +63,7 @@ class DatasetService(object):
     def create_linear_model():
         model = Sequential()
         model.add(Flatten())
-        model.add(Dense(32, activation=sigmoid))
+        model.add(Dense(3, activation=tanh))
         model.compile(optimizer=SGD(), loss=mean_squared_error, metrics=['accuracy'])
         return model
 
@@ -81,7 +81,6 @@ class DatasetService(object):
     @staticmethod
     def predict_result_with_linear_model(matches: List[FullMatch]):
         model = load_model(f'./linear_model.keras')
-        # model.summary()
         y = []
 
         for match in matches:
@@ -89,5 +88,3 @@ class DatasetService(object):
         res = model.predict_classes(to_categorical(y))
 
         return res
-        # print(WHOWON(np.argmax(res, axis=1)).name)
-        # print(f'Linear model : {Classes(model.predict_classes(images, batch_size=64))}')
