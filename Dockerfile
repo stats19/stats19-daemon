@@ -1,8 +1,7 @@
-FROM ubuntu:latest
+FROM python:3.7.7
 
 WORKDIR /opt/project
 
-RUN apt install python3.7
 COPY . .
 RUN pip install pipenv
 RUN apt install gcc
