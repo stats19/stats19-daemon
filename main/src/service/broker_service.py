@@ -1,10 +1,8 @@
 import json
-
-import pika
 import logging
-
 from dataclasses import dataclass
 
+import pika
 
 logger = logging.getLogger(__name__)
 
@@ -50,5 +48,3 @@ class BrokerService:
     def _callback(channel, method, properties, body):
         logger.debug(f'Received {body}')
         return body
-
-

@@ -1,21 +1,18 @@
 import logging
 import random
+from dataclasses import dataclass
 from typing import List, Tuple
 
 import matplotlib.pyplot as plt
-from dataclasses import dataclass
-
 import numpy as np
-from tensorflow.keras.callbacks import TensorBoard
 from sklearn.metrics import confusion_matrix
+from tensorflow.keras.callbacks import TensorBoard
 
-from main.src.exporter.broker_exporter import BrokerExporter
+from main.src.exporter.api_exporter import ApiExporter
 from main.src.importer.api_importer import ApiImporter
-from main.src.importer.broker_importer import BrokerImporter
 from main.src.model.api_model import FullMatch
 from main.src.process.process_interface import Process
 from main.src.service.dataset_service import DatasetService
-
 
 logger = logging.getLogger(__name__)
 logging.getLogger('matplotlib').setLevel(logging.ERROR)
@@ -23,20 +20,15 @@ logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
 @dataclass
 class CreateModelProcess(Process):
-
-    importer_broker: BrokerImporter
     importer_api: ApiImporter
-    exporter_broker: BrokerExporter
+    exporter_api: ApiExporter
 
     name: str
 
     def call_process(self) -> None:
         logger.info(f'Call process {self.name}')
 
-        self.exporter_broker.send({
-            "process": self.name,
-            "status": 'RUNNING',
-        })
+        self.exporter_api.save_process_status_start(self.name)
 
         if self.force_process_execution:
             self._start_safe_process()
@@ -45,10 +37,7 @@ class CreateModelProcess(Process):
 
         logger.info(f'End process {self.name}')
 
-        self.exporter_broker.send({
-            "process": self.name,
-            "status": 'ENDED',
-        })
+        self.exporter_api.save_process_status_ended(self.name)
 
     def _start_safe_process(self):
         logger.info('Working')
@@ -100,7 +89,3 @@ class CreateModelProcess(Process):
         random.shuffle(matches)
 
         return matches[0:pourcentage], matches[pourcentage::]
-
-
-
-

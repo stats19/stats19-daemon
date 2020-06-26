@@ -1,11 +1,11 @@
 import logging
 import logging.config
 import os
+
 import logs
 
 
 def setup_logging_configuration(log_level: str, process_name: str) -> None:
-
     path = os.path.dirname(logs.__file__)
     filename_path = f'{path}/stats19-server_{process_name}.log'
 

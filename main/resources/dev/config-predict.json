@@ -3,14 +3,12 @@
     "api": {
       "url": "http://localhost:8080/api/",
       "url_login": "http://localhost:8080/"
-    },
-    "broker": {
-
     }
   },
   "destinations": {
-    "broker": {
-
+    "api": {
+      "url": "http://localhost:8080/api/",
+      "url_login": "http://localhost:8080/"
     }
   },
   "process": {

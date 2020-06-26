@@ -3,6 +3,19 @@ from enum import Enum
 from typing import List, Any
 
 
+class CARD(Enum):
+    NO_CARD = 0
+    YELLOW_CARD = 1
+    RED_CARD = 2
+
+
+class STATUS(Enum):
+    NO_STATUS = 'NO_STATUS'
+    STARTED = 'STARTED'
+    FAILED = 'FAILED'
+    ENDED = 'ENDED'
+
+
 @dataclass
 class LeagueApi:
     leagueId: int
@@ -82,6 +95,7 @@ class Player:
     player: str
     team_name: str
     team: str
+    average_score: float
     position_x: int
     position_y: int
     first_team: bool
@@ -90,15 +104,6 @@ class Player:
     fouls: List[Foul]
     shots: List[Shot]
     assists: List[Assist]
-
-
-# @dataclass
-# class Match:
-#     match_id: int
-#     team_home_id: int
-#     team_away_id: int
-#     goal_home: int
-#     goal_away: int
 
 
 @dataclass
@@ -135,38 +140,32 @@ class MatchDTO:
     away_players: List[Player]
 
 
-class CARD(Enum):
-    NO_CARD = 0
-    YELLOW_CARD = 1
-    RED_CARD = 2
-
-
 def build_fullmatch(match: Any) -> FullMatch:
     return FullMatch(
-                    match_id=match['matchId'],
-                    match_fifa_id=match['matchFifaId'],
-                    season=match['season'],
-                    stage=match['stage'],
-                    date=match['date'],
-                    home=TeamMatch(
-                        team_id=match['home']['teamId'],
-                        team=match['home']['team'],
-                        name=match['home']['name'],
-                        players_url=match['home']['players'],
-                        goals=match['home']['goals'],
-                        possession=match['home']['possession'],
-                        home=match['home']['home']
-                    ),
-                    away=TeamMatch(
-                        team_id=match['away']['teamId'],
-                        team=match['away']['team'],
-                        name=match['away']['name'],
-                        players_url=match['away']['players'],
-                        goals=match['away']['goals'],
-                        possession=match['away']['possession'],
-                        home=match['away']['home']
-                    )
-                )
+        match_id=match['matchId'],
+        match_fifa_id=match['matchFifaId'],
+        season=match['season'],
+        stage=match['stage'],
+        date=match['date'],
+        home=TeamMatch(
+            team_id=match['home']['teamId'],
+            team=match['home']['team'],
+            name=match['home']['name'],
+            players_url=match['home']['players'],
+            goals=match['home']['goals'],
+            possession=match['home']['possession'],
+            home=match['home']['home']
+        ),
+        away=TeamMatch(
+            team_id=match['away']['teamId'],
+            team=match['away']['team'],
+            name=match['away']['name'],
+            players_url=match['away']['players'],
+            goals=match['away']['goals'],
+            possession=match['away']['possession'],
+            home=match['away']['home']
+        )
+    )
 
 
 def build_player(player: Player) -> Player:
@@ -240,17 +239,18 @@ def build_player(player: Player) -> Player:
             goal_type=assist['goalType'],
         ))
     return Player(
-            id=player['playerId'],
-            name=player['name'],
-            player=player['player'],
-            team_name=player['teamName'],
-            team=player['team'],
-            position_x=player['positionX'],
-            position_y=player['positionY'],
-            first_team=player['firstTeam'],
-            corners=corners,
-            crosses=crosses,
-            fouls=fouls,
-            shots=shots,
-            assists=assists
-        )
+        id=player['playerId'],
+        name=player['name'],
+        player=player['player'],
+        team_name=player['teamName'],
+        team=player['team'],
+        average_score=player['averageScore'],
+        position_x=player['positionX'],
+        position_y=player['positionY'],
+        first_team=player['firstTeam'],
+        corners=corners,
+        crosses=crosses,
+        fouls=fouls,
+        shots=shots,
+        assists=assists
+    )

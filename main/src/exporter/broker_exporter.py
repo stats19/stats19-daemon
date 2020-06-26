@@ -1,9 +1,8 @@
 import json
+import logging
+from dataclasses import dataclass
 
 import pika
-import logging
-
-from dataclasses import dataclass
 
 from main.src.exporter.interface_exporter import ExporterInterface
 
@@ -35,5 +34,3 @@ class BrokerExporter(ExporterInterface):
         logger.debug(f'Send {message}')
 
         connection.close()
-
-
