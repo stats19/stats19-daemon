@@ -12,6 +12,6 @@
     }
   },
   "process": {
-    "name": "Create model for match predictions"
+    "name": "createModel"
   }
 }

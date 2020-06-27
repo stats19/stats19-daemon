@@ -101,6 +101,7 @@ class ApiExporter(ExporterInterface):
         body = {
             'status': status
         }
+        logger.debug(body)
         response = rq.post(url, headers=header, json=body, timeout=self.timeout)
 
         if response.status_code != 200:

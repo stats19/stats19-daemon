@@ -12,6 +12,6 @@
     }
   },
   "process": {
-    "name": "Predict result of matches"
+    "name": "predict"
   }
 }
