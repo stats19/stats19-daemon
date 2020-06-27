@@ -179,7 +179,7 @@ class ScoreProcess(Process):
         for player in players:
             if player:
                 for shot in player.shots:
-                    shot += 1
+                    shots += 1
                     if shot.on_target:
                         shot_on_target += 1
 
