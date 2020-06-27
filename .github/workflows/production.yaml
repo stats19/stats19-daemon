@@ -20,4 +20,4 @@ jobs:
           repository: stats19/daemon
           tag_with_ref: true
           tags: latest 
-          build_args: USERNAME=${{ secrets.API_PROCESS_USERNAME }}, PASSWORD=${{ secrets.API_PROCESS_PASSWORD }}, SOURCE_BROKER_USERNAME=${{ secrets.RABBIT_USERNAME }}, SOURCE_BROKER_PASSWORD=${{ secrets.RABBIT_PASSWORD }}, SOURCE_BROKER_QUEUE=${{ secrets.RABBIT_QUEUE }}, SOURCE_BROKER_PORT=${{ secrets.RABBIT_PORT }}, SOURCE_BROKER_HOST=${{ secrets.RABBIT_HOST }}, SOURCE_BROKER_VHOST=${{ secrets.RABBIT_USERNAME }}
+          build_args: USERNAME=${{ secrets.API_PROCESS_USERNAME }},PASSWORD=${{ secrets.API_PROCESS_PASSWORD }},SOURCE_BROKER_USERNAME=${{ secrets.RABBIT_USERNAME }},SOURCE_BROKER_PASSWORD=${{ secrets.RABBIT_PASSWORD }},SOURCE_BROKER_QUEUE=${{ secrets.RABBIT_QUEUE }},SOURCE_BROKER_PORT=${{ secrets.RABBIT_PORT }},SOURCE_BROKER_HOST=${{ secrets.RABBIT_HOST }},SOURCE_BROKER_VHOST=${{ secrets.RABBIT_USERNAME }}
