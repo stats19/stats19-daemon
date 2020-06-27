@@ -4,7 +4,7 @@ from typing import List
 
 from main.src.exporter.api_exporter import ApiExporter
 from main.src.importer.api_importer import ApiImporter
-from main.src.model.api_model import Player, CARD
+from main.src.model.api_model import Player, CARD, FullMatch
 from main.src.process.process_interface import Process
 
 logger = logging.getLogger(__name__)
@@ -46,16 +46,18 @@ class ScoreProcess(Process):
 
             home_shot_ratio = self._get_shot_ratio_of_a_team(match.home.players)
             away_shot_ratio = self._get_shot_ratio_of_a_team(match.away.players)
+            away_shot_ratio_defender = self._get_shot_ratio_of_a_team_defender(match.away.players)
 
             logger.debug(f'Home : {str(match.home.name)}')
-            self._set_score_of_a_team(match.home.players, home_shot_ratio, away_shot_ratio, match.match_id)
+            self._set_score_of_a_team(match.home.players, home_shot_ratio, away_shot_ratio, match, away_shot_ratio_defender)
             logger.debug(f'Away : {str(match.away.name)}')
-            self._set_score_of_a_team(match.away.players, home_shot_ratio, away_shot_ratio, match.match_id)
+            self._set_score_of_a_team(match.away.players, home_shot_ratio, away_shot_ratio, match, away_shot_ratio_defender)
 
     def _set_score_of_a_team(self, playerlist: List[Player],
                              home_shot_ratio: float,
                              away_shot_ratio: float,
-                             match_id: int):
+                             match: FullMatch,
+                             away_shot_ratio_defender: float):
         for player in playerlist:
             if player and player.id is not None:
                 logger.debug(f'{str(player.name)}')
@@ -63,7 +65,7 @@ class ScoreProcess(Process):
                 if post == GOAL_KEEPER:
                     score = self._create_score_of_goal_keep(player, away_shot_ratio)
                 elif post == DEFENDER:
-                    score = self._create_score_of_defender(player, away_shot_ratio)
+                    score = self._create_score_of_defender(player, away_shot_ratio_defender)
                 elif post == MID_FIELDER:
                     score = self._create_score_of_mid_fielder(player, home_shot_ratio)
                 elif post == FORWARD:
@@ -72,9 +74,10 @@ class ScoreProcess(Process):
                     score = self._create_score_of_other(player, home_shot_ratio)
 
                 average_score = player.average_score if player.average_score is not None else score
-                self.exporter_api.save_average_score_to_player(player, (score + average_score) / 2)
+                if match.season == '2015/2016':
+                    self.exporter_api.save_average_score_to_player(player, (score + average_score) / 2)
 
-                self.exporter_api.save_score_to_player(player, score, match_id)
+                self.exporter_api.save_score_to_player(player, score, match.match_id)
 
     @staticmethod
     def _get_post_of_player(player: Player) -> str:
@@ -93,7 +96,7 @@ class ScoreProcess(Process):
         score -= sum([2 for x in player.fouls if self._get_card_value(x.card) == 1])
         score -= sum([4 for x in player.fouls if self._get_card_value(x.card) == 2])
         score += sum([3 for x in player.shots if x.scored])
-        score += away_shot_ratio * 5
+        score += away_shot_ratio * 3
         score += len(player.assists)
 
         return self._is_score_good(score)
@@ -167,4 +170,17 @@ class ScoreProcess(Process):
                     if shot.on_target and shot.scored:
                         goals += 1
 
-        return goals / shots if shots != 0 else 0
+        return 1 - (goals / shots) if shots != 0 else 0
+
+    @staticmethod
+    def _get_shot_ratio_of_a_team_defender(players: List[Player]) -> float:
+        shot_on_target = 0
+        shots = 0
+        for player in players:
+            if player:
+                for shot in player.shots:
+                    shot += 1
+                    if shot.on_target:
+                        shot_on_target += 1
+
+        return 1 - (shot_on_target / shots) if shots != 0 else 0
