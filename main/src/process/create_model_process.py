@@ -81,7 +81,7 @@ class CreateModelProcess(Process):
         plt.plot(logs.history['val_loss'])
         plt.show()
 
-        model.save('linear_model.keras')
+        model.save('../../../models/linear_model.keras')
 
     @staticmethod
     def _extract_match_value(matches: List[FullMatch]) -> Tuple[List[FullMatch], List[FullMatch]]:
