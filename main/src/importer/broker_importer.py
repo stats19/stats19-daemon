@@ -45,10 +45,11 @@ class BrokerImporter(ImporterInterface):
     queue: str
     port: int
     host: str
+    vhost: str
 
     def receive(self):
         credentials = pika.PlainCredentials(self.username, self.password)
-        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, self.vhost, credentials))
 
         channel = connection.channel()
 

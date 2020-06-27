@@ -23,8 +23,9 @@ jobs:
           build_args: |
             USERNAME=${{ secrets.API_PROCESS_USERNAME }}
             PASSWORD=${{ secrets.API_PROCESS_PASSWORD }}
-            SOURCE_BROKER_USERNAME=${{ secrets.BROKER_USERNAME }}
-            SOURCE_BROKER_PASSWORD=${{ secrets.BROKER_PASSWORD }}
-            SOURCE_BROKER_QUEUE=${{ secrets.BROKER_QUEUE }}
-            SOURCE_BROKER_PORT=${{ secrets.BROKER_PORT }}
-            SOURCE_BROKER_HOST=${{ secrets.BROKER_HOST }}
+            SOURCE_BROKER_USERNAME=${{ secrets.RABBIT_USERNAME }}
+            SOURCE_BROKER_PASSWORD=${{ secrets.RABBIT_PASSWORD }}
+            SOURCE_BROKER_QUEUE=${{ secrets.RABBIT_QUEUE }}
+            SOURCE_BROKER_PORT=${{ secrets.RABBIT_PORT }}
+            SOURCE_BROKER_HOST=${{ secrets.RABBIT_HOST }}
+            SOURCE_BROKER_VHOST=${{ secrets.RABBIT_USERNAME }}
