@@ -8,7 +8,7 @@ from typing import Any, Dict
 import pika
 
 from main.src.importer.interface_importer import ImporterInterface
-from main.src.run_server import get_env_level, get_force
+from run_server import get_env_level, get_force
 
 logger = logging.getLogger(__name__)
 
