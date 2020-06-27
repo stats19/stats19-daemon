@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 request = "*"
 numpy = "*"
-tensorflow = "*"
 matplotlib = "*"
 sklearn = "*"
 pika = "*"
