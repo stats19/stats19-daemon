@@ -62,7 +62,8 @@ class BrokerSourceBuilder(SourceBuilder):
         username = os.getenv('SOURCE_BROKER_USERNAME')
         password = os.getenv('SOURCE_BROKER_PASSWORD')
         queue = os.getenv('SOURCE_BROKER_QUEUE')
-        return BrokerImporter(host=host, port=port, password=password, username=username, queue=queue)
+        vhost = os.getenv('SOURCE_BROKER_VHOST')
+        return BrokerImporter(host=host, port=port, password=password, username=username, queue=queue, vhost=vhost)
 
 
 @dataclass
@@ -76,4 +77,6 @@ class BrokerDestinationBuilder(SourceBuilder):
         username = os.getenv('DESTINATION_BROKER_USERNAME')
         password = os.getenv('DESTINATION_BROKER_PASSWORD')
         queue = os.getenv('DESTINATION_BROKER_QUEUE')
-        return BrokerExporter(host=host, port=port, password=password, username=username, queue=queue)
+        vhost = os.getenv('DESTINATION_BROKER_VHOST')
+
+        return BrokerExporter(host=host, port=port, password=password, username=username, queue=queue, vhost=vhost)

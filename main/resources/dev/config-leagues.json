@@ -12,6 +12,6 @@
     }
   },
   "process": {
-    "name": "Get Leagues From API"
+    "name": "league"
   }
 }

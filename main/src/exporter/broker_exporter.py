@@ -16,11 +16,12 @@ class BrokerExporter(ExporterInterface):
     queue: str
     port: int
     host: str
+    vhost: str
 
     def send(self, message: dict):
         message = json.dumps(message)
         credentials = pika.PlainCredentials(self.username, self.password)
-        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, self.vhost, credentials))
         properties = pika.BasicProperties(content_type='application/json',
                                           content_encoding='UTF-8',
                                           delivery_mode=1)

@@ -12,6 +12,6 @@
     }
   },
   "process": {
-    "name": "Create score of player"
+    "name": "score"
   }
 }

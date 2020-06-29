@@ -8,7 +8,7 @@ from typing import Any, Dict
 import pika
 
 from main.src.importer.interface_importer import ImporterInterface
-from main.src.run_server import get_env_level, get_force
+from run_server import get_env_level, get_force
 
 logger = logging.getLogger(__name__)
 
@@ -45,10 +45,11 @@ class BrokerImporter(ImporterInterface):
     queue: str
     port: int
     host: str
+    vhost: str
 
     def receive(self):
         credentials = pika.PlainCredentials(self.username, self.password)
-        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, '/', credentials))
+        connection = pika.BlockingConnection(pika.ConnectionParameters(self.host, self.port, self.vhost, credentials))
 
         channel = connection.channel()
 

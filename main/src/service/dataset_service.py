@@ -79,7 +79,7 @@ class DatasetService(object):
 
     @staticmethod
     def predict_result_with_linear_model(matches: List[FullMatch]):
-        model = load_model(f'./linear_model.keras')
+        model = load_model(f'./models/linear_model.keras')
         y = []
 
         for match in matches:
