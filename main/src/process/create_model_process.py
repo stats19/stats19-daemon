@@ -70,7 +70,7 @@ class CreateModelProcess(Process):
 
         print(confusion_matrix(true_values, preds))
 
-        logs = model.fit(x_train, y_train, batch_size=64, epochs=DatasetService.epoch, verbose=1,
+        logs = model.fit(x_train, y_train, batch_size=400, epochs=DatasetService.epoch, verbose=1,
                          validation_data=(x_test, y_test), callbacks=[TensorBoard()])
 
         plt.plot(logs.history['accuracy'])
@@ -81,7 +81,7 @@ class CreateModelProcess(Process):
         plt.plot(logs.history['val_loss'])
         plt.show()
 
-        model.save('../../../models/linear_model.keras')
+        model.save('models/linear_model.keras')
 
     @staticmethod
     def _extract_match_value(matches: List[FullMatch]) -> Tuple[List[FullMatch], List[FullMatch]]:

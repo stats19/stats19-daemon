@@ -4,7 +4,7 @@ from typing import List
 
 import numpy as np
 from tensorflow.keras.activations import sigmoid, tanh
-from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.layers import Dense, Flatten, Dropout
 from tensorflow.keras.losses import mean_squared_error
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import SGD
@@ -23,7 +23,7 @@ class WHOWON(Enum):
 
 @dataclass
 class DatasetService(object):
-    epoch: int = field(default=101)
+    epoch: int = field(default=200)
 
     @staticmethod
     def load_dataset(matches: List[FullMatch], matches_test: List[FullMatch]):
@@ -71,7 +71,9 @@ class DatasetService(object):
         model = Sequential()
         model.add(Flatten())
         model.add(Dense(np.argmax(teams), activation=tanh))
-        model.add(Dense(128, activation='relu'))
+        model.add(Dropout(.2))
+        model.add(Dense(np.argmax(teams), activation='relu'))
+        model.add(Dropout(.2))
         model.add(Dense(np.argmax(teams), activation=tanh))
         model.add(Dense(3, activation=sigmoid))
         model.compile(optimizer='rmsprop', loss=mean_squared_error, metrics=['accuracy'])
@@ -79,7 +81,7 @@ class DatasetService(object):
 
     @staticmethod
     def predict_result_with_linear_model(matches: List[FullMatch]):
-        model = load_model(f'./models/linear_model.keras')
+        model = load_model(f'./models/linear8_model.keras')
         y = []
 
         for match in matches:
